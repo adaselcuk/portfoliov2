@@ -20,8 +20,8 @@ const Computers = () => {
       />
       <primitive 
         object={computer.scene}
-        scale={0.75}
-        position={[0, -3.25, -1.5]}
+        scale={1.25}
+        position={[0, -7.25, -4]}
         rotation={[-0.01, -0.2, -0.1]}
         />
     </mesh>
@@ -33,7 +33,7 @@ const ComputersCanvas = () => {
     <Canvas
       frameloop="demand"
       shadows
-      camera={{position: [20, 3, 5], fov: 25 }}
+      camera={{position: [20, 10, 20], fov: 25, near: 0.1 }}
       gl={{ preserveDrawingBuffer: true }}> 
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls 

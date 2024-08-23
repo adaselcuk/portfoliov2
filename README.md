@@ -6,3 +6,4 @@ TODO:
 - [ ] change logo 
 - [ ] change background
 - [ ] add "see my resume" button to nav
+LEFT AT 59:37
