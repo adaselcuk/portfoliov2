@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'; // allows scene
 import { OrbitControls, Preload, useGLTF } from '@react-three/drei'; // useGLTF is a hook that allows import of 3d models
 import CanvasLoader from '../Loader';
 
-const Computers = () => {
+const Computers = ({ isMobile }) => {
   const computer = useGLTF('./desktop_pc/scene.gltf'); // import 3d model
 
   return (
@@ -20,8 +20,8 @@ const Computers = () => {
       />
       <primitive 
         object={computer.scene}
-        scale={1.25}
-        position={[0, -7.25, -4]}
+        scale={isMobile ? 0.70 : 1.25}
+        position={ isMobile ? [0, -3, -2.2] : [0, -7.25, -4]}
         rotation={[-0.01, -0.2, -0.1]}
         />
     </mesh>
@@ -29,9 +29,25 @@ const Computers = () => {
 }
 
 const ComputersCanvas = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect (() => {
+    const mediaQuery = window.matchMedia('(max-width: 500px)');
+    setIsMobile(mediaQuery.matches);
+    const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches)
+    };
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
+    }
+
+    }, []);
+
   return (
     <Canvas
-      frameloop="demand"
+      frameLoop="demand"
       shadows
       camera={{position: [20, 10, 20], fov: 25, near: 0.1 }}
       gl={{ preserveDrawingBuffer: true }}> 
@@ -40,7 +56,7 @@ const ComputersCanvas = () => {
           enableZoom={false}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2} />
-        <Computers />
+        <Computers isMobile={isMobile}/>
       </Suspense>
 
       <Preload all />
